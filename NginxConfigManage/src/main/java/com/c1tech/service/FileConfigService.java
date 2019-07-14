@@ -67,7 +67,7 @@ public class FileConfigService {
 	 * @param name
 	 * @return
 	 */
-	public String errorHandle_listConfigFiles(String name) {
+	public String errorHandle_listConfigFiles() {
 		return "Hystrix: Sorry, method listConfigFiles has an error" 
 	+ "<br/>time:" + new Date();
 	}
@@ -101,7 +101,7 @@ public class FileConfigService {
 		return returnStr;
 	}
 	
-	public String errorHandle_listDomain(String name) {
+	public String errorHandle_listDomain(String filename) {
 		return "Hystrix: Sorry, method listDomain has an error" 
 	+ "<br/>time:" + new Date();
 	}
@@ -140,7 +140,7 @@ public class FileConfigService {
 		return "ok";
 	}
 	
-	public String errorHandle_changeDomain(String name) {
+	public String errorHandle_changeDomain(String filename, String domain) {
 		return "Hystrix: Sorry, method changeDomain has an error" 
 	+ "<br/>time:" + new Date();
 	}
@@ -180,7 +180,7 @@ public class FileConfigService {
 		return "ok";
 	}
 	
-	public String errorHandle_changeLineContent(String name) {
+	public String errorHandle_changeLineContent(String filename, String linewords, String content) {
 		return "Hystrix: Sorry, method changeLineContent has an error" 
 	+ "<br/>time:" + new Date();
 	}
