@@ -134,8 +134,8 @@ public class FileConfigService {
         FileWriter fw=new FileWriter(file);
         caw.writeTo(fw);
         fw.close();
-        //重启nginx
-        Runtime.getRuntime().exec("service nginx restart");
+		//nginx重新加载配置
+		Runtime.getRuntime().exec("service nginx reload");
         //
 		return "ok";
 	}
@@ -161,7 +161,7 @@ public class FileConfigService {
 		String line="";
 		while((line=br.readLine())!=null){
             if(line.contains(linewords)) {
-            	line = content;
+            	line = content+";";
             }
             //将该行写入内存
             caw.write(line);
@@ -174,8 +174,8 @@ public class FileConfigService {
         FileWriter fw=new FileWriter(file);
         caw.writeTo(fw);
         fw.close();
-        //重启nginx
-        Runtime.getRuntime().exec("service nginx restart");
+		//nginx重新加载配置
+		Runtime.getRuntime().exec("service nginx reload");
         //
 		return "ok";
 	}
@@ -183,6 +183,51 @@ public class FileConfigService {
 	public String errorHandle_changeLineContent(String filename, String linewords, String content) {
 		return "Hystrix: Sorry, method changeLineContent has an error" 
 	+ "<br/>time:" + new Date();
+	}
+
+	/**
+	 * 修改参数值
+	 * @param filename
+	 * @param param
+	 * @param value
+	 * @return
+	 * @throws Exception
+	 */
+	@HystrixCommand(fallbackMethod = "errorHandle_changeParamValue")
+	public String changeParamValue(String filename, String param, String value) throws Exception {
+		if(filename == null || filename.equals("") ||
+		param == null || param.equals("") ||
+		value == null || value.equals("")){
+			throw new Exception();
+		}
+		File file=new File(configDir + "/" + filename);
+		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
+		CharArrayWriter caw=new CharArrayWriter();
+		String line="";
+		while((line=br.readLine())!=null){
+			if(line.contains("set $"+param+" ")) {
+				line = "set $"+param+" "+value+";";
+			}
+			//将该行写入内存
+			caw.write(line);
+			//添加换行符
+			caw.append(System.getProperty("line.separator"));
+		}
+		//关闭输入流
+		br.close();
+		//将内存中的流写入源文件
+		FileWriter fw=new FileWriter(file);
+		caw.writeTo(fw);
+		fw.close();
+		//nginx重新加载配置
+		Runtime.getRuntime().exec("service nginx reload");
+		//
+		return "ok";
+	}
+
+	public String errorHandle_changeParamValue(String filename, String param, String value) {
+		return "Hystrix: Sorry, method changeParamValue has an error"
+				+ "<br/>time:" + new Date();
 	}
 	
 }

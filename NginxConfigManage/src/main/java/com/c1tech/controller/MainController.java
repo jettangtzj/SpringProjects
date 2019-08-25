@@ -42,7 +42,7 @@ public class MainController {
 	public String listDomain(String filename) throws Exception {
 		return fileConfigService.listDomain(filename);
 	}
-	
+
 	/**
 	 * 修改文件的配置信息
 	 * @param filename 文件名
@@ -67,6 +67,18 @@ public class MainController {
 	public String changeLineContent(String filename, String linewords, String content) throws Exception {
 		return fileConfigService.changeLineContent(filename, linewords, content);
 	}
-	
+
+	/**
+	 * 修改参数值
+	 * @param filename 配置文件名
+	 * @param param   参数名
+	 * @param value   参数值
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/changeParamValue")
+	public String changeParamValue(String filename, String param, String value) throws Exception {
+		return fileConfigService.changeParamValue(filename, param, value);
+	}
 
 }

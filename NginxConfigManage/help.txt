@@ -1,0 +1,28 @@
+# 使用说明
+
+##  管理linux/centos服务器上nginx的配置文件内容
+
+### 列出配置文件列表
+http://localhost:2019/listConfigFiles
+
+
+### 列出文件的配置信息
+http://localhost:2019/listDomain?filename=xxx
+
+
+### 修改文件的配置信息
+http://localhost:2019/changeDomain?filename=xxx&domain=http://www.nba.com/index.html
+
+
+### 修改文件的整行内容
+@param filename 文件名
+@param linewords      行关键词
+@param content  修改内容
+http://localhost:2019/changeLineContent?filename=xxx&linewords=&content=http://www.nba.com/index.html
+
+
+### 修改文件的参数值
+@param filename 配置文件名
+@param param   参数名
+@param value   参数值
+http://localhost:2019/changeParamValue?filename=qqpj02_com.conf&param=url&value=http://www.nba.com/index.html
